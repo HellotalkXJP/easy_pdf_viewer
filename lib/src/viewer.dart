@@ -50,6 +50,7 @@ class PDFViewer extends StatefulWidget {
   final Color? backgroundColor;
   final Function(double)? onZoomChanged;
   final bool? resizeToAvoidBottomInset;
+  final bool pageSnapping;
 
   final Widget Function(
     BuildContext,
@@ -76,6 +77,7 @@ class PDFViewer extends StatefulWidget {
     this.showPicker = true,
     this.showNavigation = true,
     this.enableSwipeNavigation = true,
+    this.pageSnapping = true,
     this.tooltip = const PDFViewerTooltip(),
     this.navigationBuilder,
     this.controller,
@@ -255,6 +257,7 @@ class _PDFViewerState extends State<PDFViewer> {
       body: Stack(
         children: <Widget>[
           PageView.builder(
+            pageSnapping: widget.pageSnapping,
             physics:
                 _swipeEnabled && widget.enableSwipeNavigation && !_isLoading
                     ? null

@@ -104,15 +104,25 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         title: const Text('PDFViewer'),
       ),
-      body: Center(
-        child: _isLoading
-            ? Center(child: CircularProgressIndicator())
-            : PDFViewer(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator(color: Colors.red,))
+          : Container(
+            height: 350,
+            color: Colors.cyan,
+            child: PDFViewer(
+                scrollDirection: Axis.vertical,
+                showPicker: false,
+                showIndicator: false,
+                showNavigation: false,
+                pageSnapping: false,
                 document: document,
                 lazyLoad: false,
                 zoomSteps: 1,
                 numberPickerConfirmWidget: const Text(
                   "Confirm",
+                ),
+                progressIndicator: CircularProgressIndicator(
+                  color: Colors.red,
                 ),
                 //uncomment below line to preload all pages
                 // lazyLoad: false,
@@ -153,7 +163,7 @@ class _MyAppState extends State<MyApp> {
                     );
                   }, */
               ),
-      ),
+          ),
     );
   }
 }
