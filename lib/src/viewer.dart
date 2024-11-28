@@ -51,6 +51,7 @@ class PDFViewer extends StatefulWidget {
   final Function(double)? onZoomChanged;
   final bool? resizeToAvoidBottomInset;
   final bool pageSnapping;
+  final bool needShowLoading;
 
   final Widget Function(
     BuildContext,
@@ -78,6 +79,7 @@ class PDFViewer extends StatefulWidget {
     this.showNavigation = true,
     this.enableSwipeNavigation = true,
     this.pageSnapping = true,
+    this.needShowLoading = true,
     this.tooltip = const PDFViewerTooltip(),
     this.navigationBuilder,
     this.controller,
@@ -273,10 +275,9 @@ class _PDFViewerState extends State<PDFViewer> {
             controller: _pageController,
             itemCount: _pages?.length ?? 0,
             itemBuilder: (context, index) => _pages![index] == null
-                ? Center(
-                    child:
-                        widget.progressIndicator ?? CircularProgressIndicator(),
-                  )
+                ? (widget.needShowLoading ? Center(
+                    child: widget.progressIndicator ?? CircularProgressIndicator(),
+                  ) : Container())
                 : _pages![index]!,
           ),
           (widget.showIndicator && !_isLoading)
