@@ -52,6 +52,7 @@ class PDFViewer extends StatefulWidget {
   final bool? resizeToAvoidBottomInset;
   final bool pageSnapping;
   final bool needShowLoading;
+  final bool needShowScaffold;
 
   final Widget Function(
     BuildContext,
@@ -80,6 +81,7 @@ class PDFViewer extends StatefulWidget {
     this.enableSwipeNavigation = true,
     this.pageSnapping = true,
     this.needShowLoading = true,
+    this.needShowScaffold = true,
     this.tooltip = const PDFViewerTooltip(),
     this.navigationBuilder,
     this.controller,
@@ -253,38 +255,13 @@ class _PDFViewerState extends State<PDFViewer> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.needShowScaffold) {
+      return _bodyContentBuilder();
+    }
     return Scaffold(
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       backgroundColor: widget.backgroundColor,
-      body: Stack(
-        children: <Widget>[
-          PageView.builder(
-            pageSnapping: widget.pageSnapping,
-            physics:
-                _swipeEnabled && widget.enableSwipeNavigation && !_isLoading
-                    ? null
-                    : NeverScrollableScrollPhysics(),
-            onPageChanged: (page) {
-              setState(() {
-                _pageNumber = page + 1;
-              });
-              _loadPage();
-              widget.onPageChanged?.call(page);
-            },
-            scrollDirection: widget.scrollDirection ?? Axis.horizontal,
-            controller: _pageController,
-            itemCount: _pages?.length ?? 0,
-            itemBuilder: (context, index) => _pages![index] == null
-                ? (widget.needShowLoading ? Center(
-                    child: widget.progressIndicator ?? CircularProgressIndicator(),
-                  ) : Container())
-                : _pages![index]!,
-          ),
-          (widget.showIndicator && !_isLoading)
-              ? _drawIndicator()
-              : Container(),
-        ],
-      ),
+      body: _bodyContentBuilder(),
       floatingActionButton: widget.showPicker && widget.document.count > 1
           ? FloatingActionButton(
               elevation: 4.0,
@@ -378,6 +355,38 @@ class _PDFViewerState extends State<PDFViewer> {
           : Container(
               height: 0,
             ),
+    );
+  }
+
+  Widget _bodyContentBuilder() {
+    return Stack(
+      children: <Widget>[
+        PageView.builder(
+          pageSnapping: widget.pageSnapping,
+          physics:
+          _swipeEnabled && widget.enableSwipeNavigation && !_isLoading
+              ? null
+              : NeverScrollableScrollPhysics(),
+          onPageChanged: (page) {
+            setState(() {
+              _pageNumber = page + 1;
+            });
+            _loadPage();
+            widget.onPageChanged?.call(page);
+          },
+          scrollDirection: widget.scrollDirection ?? Axis.horizontal,
+          controller: _pageController,
+          itemCount: _pages?.length ?? 0,
+          itemBuilder: (context, index) => _pages![index] == null
+              ? (widget.needShowLoading ? Center(
+            child: widget.progressIndicator ?? CircularProgressIndicator(),
+          ) : Container())
+              : _pages![index]!,
+        ),
+        (widget.showIndicator && !_isLoading)
+            ? _drawIndicator()
+            : Container(),
+      ],
     );
   }
 }

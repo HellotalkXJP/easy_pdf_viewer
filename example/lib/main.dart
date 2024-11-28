@@ -107,6 +107,7 @@ class _MyAppState extends State<MyApp> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.red,))
           : Container(
+            padding: EdgeInsets.only(top: 70),
             height: 350,
             color: Colors.cyan,
             child: PDFViewer(
@@ -115,6 +116,7 @@ class _MyAppState extends State<MyApp> {
                 showIndicator: false,
                 showNavigation: false,
                 pageSnapping: false,
+                needShowScaffold: false,
                 document: document,
                 lazyLoad: false,
                 zoomSteps: 1,
