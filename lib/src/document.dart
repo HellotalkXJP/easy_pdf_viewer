@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:easy_pdf_viewer/src/page.dart';
@@ -167,6 +168,7 @@ class PDFDocument {
     final double? minScale,
     final double? maxScale,
     final double? panLimit,
+    final Alignment? alignment,
   }) async {
     assert(page > 0);
     if (_preloaded && _pages.isNotEmpty) return _pages[page - 1];
@@ -180,6 +182,7 @@ class PDFDocument {
       minScale: minScale ?? 1.0,
       maxScale: maxScale ?? 5.0,
       panLimit: panLimit ?? 1.0,
+      alignment: alignment ?? Alignment.center,
     );
   }
 
@@ -189,6 +192,7 @@ class PDFDocument {
     final double? minScale,
     final double? maxScale,
     final double? panLimit,
+    final Alignment? alignment,
   }) async {
     int countvar = 1;
     for (final _ in List.filled(count, null)) {
@@ -202,6 +206,7 @@ class PDFDocument {
         minScale: minScale ?? 1.0,
         maxScale: maxScale ?? 5.0,
         panLimit: panLimit ?? 1.0,
+        alignment: alignment ?? Alignment.center,
       ));
       countvar++;
     }
@@ -209,7 +214,7 @@ class PDFDocument {
   }
 
   // Stream all pages
-  Stream<PDFPage?> getAll({final Function(double)? onZoomChanged}) {
+  Stream<PDFPage?> getAll({final Function(double)? onZoomChanged, final Alignment? alignment}) {
     return Future.forEach<PDFPage?>(List.filled(count, null), (i) async {
       print(i);
       final data = await _channel
@@ -218,6 +223,7 @@ class PDFDocument {
         data,
         1,
         onZoomChanged: onZoomChanged,
+        alignment: alignment ?? Alignment.center,
       );
     }).asStream() as Stream<PDFPage?>;
   }

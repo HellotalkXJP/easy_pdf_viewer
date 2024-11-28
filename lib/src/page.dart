@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:easy_pdf_viewer/src/zoomable_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// A class to represent PDF page
@@ -18,6 +19,7 @@ class PDFPage extends StatefulWidget {
   final double minScale;
   final double maxScale;
   final double panLimit;
+  final Alignment alignment;
   PDFPage(
     this.imgPath,
     this.num, {
@@ -26,6 +28,7 @@ class PDFPage extends StatefulWidget {
     this.minScale = 1.0,
     this.maxScale = 5.0,
     this.panLimit = 1.0,
+    this.alignment = Alignment.center,
   });
 
   @override
@@ -67,7 +70,11 @@ class _PDFPageState extends State<PDFPage> {
         minScale: widget.minScale,
         panLimit: widget.panLimit,
         maxScale: widget.maxScale,
-        child: Image(image: provider),
+        child: Image(
+          image: provider,
+          alignment: widget.alignment,
+          fit: BoxFit.fitWidth,
+        ),
       ),
     );
   }
