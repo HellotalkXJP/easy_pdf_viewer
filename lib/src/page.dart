@@ -20,6 +20,7 @@ class PDFPage extends StatefulWidget {
   final double maxScale;
   final double panLimit;
   final Alignment alignment;
+  final BoxFit? fit;
   PDFPage(
     this.imgPath,
     this.num, {
@@ -28,6 +29,7 @@ class PDFPage extends StatefulWidget {
     this.minScale = 1.0,
     this.maxScale = 5.0,
     this.panLimit = 1.0,
+    this.fit,
     this.alignment = Alignment.center,
   });
 
@@ -73,7 +75,7 @@ class _PDFPageState extends State<PDFPage> {
         child: Image(
           image: provider,
           alignment: widget.alignment,
-          fit: BoxFit.fitWidth,
+          fit: widget.fit,
         ),
       ),
     );

@@ -107,16 +107,19 @@ class _MyAppState extends State<MyApp> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.red,))
           : Container(
-            padding: EdgeInsets.only(top: 70),
-            height: 350,
+            padding: EdgeInsets.only(left: 16,right: 16),
+            height: 600,
             color: Colors.cyan,
             child: PDFViewer(
+              alignment: Alignment.center,
+                backgroundColor: Colors.yellow,
                 scrollDirection: Axis.vertical,
                 showPicker: false,
                 showIndicator: false,
                 showNavigation: false,
-                pageSnapping: false,
+                pageSnapping: true,
                 needShowScaffold: false,
+                // boxFit: BoxFit.fitHeight,
                 document: document,
                 lazyLoad: false,
                 zoomSteps: 1,

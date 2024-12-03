@@ -54,6 +54,7 @@ class PDFViewer extends StatefulWidget {
   final bool needShowLoading;
   final bool needShowScaffold;
   final Alignment alignment;
+  final BoxFit? boxFit;
 
   final Widget Function(
     BuildContext,
@@ -76,6 +77,7 @@ class PDFViewer extends StatefulWidget {
     this.indicatorText = Colors.white,
     this.indicatorBackground = Colors.black54,
     this.alignment = Alignment.center,
+    this.boxFit,
     this.numberPickerConfirmWidget = const Text('OK'),
     this.showIndicator = true,
     this.showPicker = true,
@@ -163,6 +165,7 @@ class _PDFViewerState extends State<PDFViewer> {
         maxScale: widget.maxScale,
         panLimit: widget.panLimit,
         alignment: widget.alignment,
+        fit: widget.boxFit,
       );
       _pages![countvar - 1] = data;
 
@@ -183,6 +186,7 @@ class _PDFViewerState extends State<PDFViewer> {
       maxScale: widget.maxScale,
       panLimit: widget.panLimit,
       alignment: widget.alignment,
+      fit: widget.boxFit,
     );
     _pages![_pageNumber - 1] = data;
     if (mounted) {

@@ -169,6 +169,7 @@ class PDFDocument {
     final double? maxScale,
     final double? panLimit,
     final Alignment? alignment,
+    final BoxFit? fit,
   }) async {
     assert(page > 0);
     if (_preloaded && _pages.isNotEmpty) return _pages[page - 1];
@@ -183,6 +184,7 @@ class PDFDocument {
       maxScale: maxScale ?? 5.0,
       panLimit: panLimit ?? 1.0,
       alignment: alignment ?? Alignment.center,
+      fit: fit,
     );
   }
 
@@ -193,6 +195,7 @@ class PDFDocument {
     final double? maxScale,
     final double? panLimit,
     final Alignment? alignment,
+    final BoxFit? fit,
   }) async {
     int countvar = 1;
     for (final _ in List.filled(count, null)) {
@@ -207,6 +210,7 @@ class PDFDocument {
         maxScale: maxScale ?? 5.0,
         panLimit: panLimit ?? 1.0,
         alignment: alignment ?? Alignment.center,
+        fit: fit,
       ));
       countvar++;
     }
@@ -214,7 +218,7 @@ class PDFDocument {
   }
 
   // Stream all pages
-  Stream<PDFPage?> getAll({final Function(double)? onZoomChanged, final Alignment? alignment}) {
+  Stream<PDFPage?> getAll({final Function(double)? onZoomChanged, final Alignment? alignment, final BoxFit? fit}) {
     return Future.forEach<PDFPage?>(List.filled(count, null), (i) async {
       print(i);
       final data = await _channel
@@ -224,6 +228,7 @@ class PDFDocument {
         1,
         onZoomChanged: onZoomChanged,
         alignment: alignment ?? Alignment.center,
+        fit: fit,
       );
     }).asStream() as Stream<PDFPage?>;
   }
